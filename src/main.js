@@ -10,26 +10,30 @@ Vue.use(Vuex);
 
 Vue.config.productionTip = false
 
-new Vue({
-   el: '#app',
-   render: h => h(App),
-   router,
-   store,
-   created() {
-      fb.initializeApp({
-         apiKey: 'AIzaSyCaekCvBkbOdG77DRdPzdu7s8977KgkMtM',
-         authDomain: 'list-tasks.firebaseapp.com',
-         databaseURL: 'https://list-tasks.firebaseio.com',
-         projectId: 'list-tasks',
-         storageBucket: 'list-tasks.appspot.com',
-         messagingSenderId: '990982464730'
-      });
+let app;
 
-      fb.auth().onAuthStateChanged((user) => {
-         if (user) {
-            this.$store.dispatch('autoLoginUser', user);
-            console.log(user);
-         }
-      })
+fb.initializeApp({
+   apiKey: 'AIzaSyCaekCvBkbOdG77DRdPzdu7s8977KgkMtM',
+   authDomain: 'list-tasks.firebaseapp.com',
+   databaseURL: 'https://list-tasks.firebaseio.com',
+   projectId: 'list-tasks',
+   storageBucket: 'list-tasks.appspot.com',
+   messagingSenderId: '990982464730'
+});
+
+fb.auth().onAuthStateChanged((user) => {
+   if (app) return;
+   
+   if (user) {
+      store.dispatch('autoLoginUser', user);
+      store.commit('setDatabase', fb.database());
    }
+
+   app = new Vue({
+      el: '#app',
+      router,
+      store,
+      components: { App },
+      template: '<App/>'
+   })
 })

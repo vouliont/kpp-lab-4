@@ -17,8 +17,8 @@
                v-if="openBlockName === 'log'"
             >
                <form class="form-log">
-                  <input type="email" name="email" class="form-log__input input-email" v-model="logEmail" placeholder="Email">
-                  <input type="password" name="pass" class="form-log__input input-pass" v-model="logPassword" placeholder="Password">
+                  <input type="email" name="email" class="form-log__input input-email" v-model="logEmail" placeholder="Емейл">
+                  <input type="password" name="pass" class="form-log__input input-pass" v-model="logPassword" placeholder="Пароль">
 
                   <input type="submit" name="log-in" class="form-log__submit" value="Войти" @click.prevent="logIn()">
                </form>
@@ -40,9 +40,9 @@
                v-if="openBlockName === 'reg'"
             >
                <form class="form-reg">
-                  <input type="email" name="email" class="form-reg__input input-email" v-model="regEmail" placeholder="Email">
-                  <input type="password" name="pass" class="form-reg__input input-pass" v-model="regPassword" placeholder="Password">
-                  <input type="password" name="pass-repeat" class="form-reg__input input-pass input-pass-repeat" v-model="regPasswordRepeat" placeholder="Repeat password">
+                  <input type="email" name="email" class="form-reg__input input-email" v-model="regEmail" placeholder="Емейл">
+                  <input type="password" name="pass" class="form-reg__input input-pass" v-model="regPassword" placeholder="Пароль">
+                  <input type="password" name="pass-repeat" class="form-reg__input input-pass input-pass-repeat" v-model="regPasswordRepeat" placeholder="Повторите пароль">
 
                   <input type="submit" name="sign-in" class="form-reg__submit" value="Зарегистрироваться" @click.prevent="signIn()">
                </form>
@@ -88,7 +88,7 @@
 
             this.$store.dispatch('loginUser', user)
                .then(() => {
-                  this.$router.push('/');
+                  this.$router.push('/tasks');
                })
                .catch(error => console.log(error));
          },
@@ -100,7 +100,7 @@
 
             this.$store.dispatch('registerUser', user)
                .then(() => {
-                  this.$router.push('/');
+                  this.$router.push('/tasks');
                })
                .catch(error => console.log(error));
          }

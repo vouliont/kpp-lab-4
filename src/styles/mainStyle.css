@@ -24,13 +24,24 @@ button {
    color: #fff;
 }
 
+textarea {
+   display: block;
+   box-sizing: border-box;
+   font-family: 'Calibri';
+   font-size: 18px;
+   border: 0;
+   padding: 10px 13px;
+   border-radius: 3px;
+   resize: none;
+}
+
 input {
    box-sizing: border-box;
    font-family: 'Calibri';
    font-size: 18px;
    border: 0;
    padding: 0 13px;
-   border-radius: 5px;
+   border-radius: 3px;
 }
 input[type="submit"] {
    color: #fff;
