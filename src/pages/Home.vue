@@ -43,5 +43,20 @@
 </script>
 
 <style scoped>
-
+   #home {
+      padding: 120px 0 40px;
+   }
+   .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      padding: 0 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #2196F3;
+      color: #fff;
+   }
 </style>

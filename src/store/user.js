@@ -33,8 +33,11 @@ export default {
          commit('clearError');
          commit('setLoading', true);
          try {
-            let user = await fb.auth().signInWithEmailAndPassword(email, password);
+            let objectReturned = await fb.auth().signInWithEmailAndPassword(email, password);
+            let user = objectReturned.user;
+
             commit('setUser', new User(user.uid));
+            commit('setDatabase', fb.database());
             commit('setLoading', false);
          } catch (error) {
             commit('setLoading', false);

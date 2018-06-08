@@ -4,8 +4,7 @@ import store from '../store'
 import Auth from '../pages/Auth.vue'
 import Home from '../pages/Home.vue'
 import Tasks from '../pages/Tasks.vue'
-import AddTask from '../pages/AddTask.vue'
-import EditTask from '../pages/EditTask.vue'
+import AddOrEditTask from '../pages/AddOrEditTask.vue'
 import Error404 from '../pages/Error404.vue'
 import authGuard from './auth-guard.js'
 
@@ -14,7 +13,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
    routes: [
       {
-         path: '/',
+         path: '',
          component: Home,
          redirect: '/tasks',
          children: [
@@ -26,15 +25,25 @@ export default new VueRouter({
             },
             {
                path: '/add-task',
-               component: AddTask,
+               component: AddOrEditTask,
                name: 'add-task-page',
                beforeEnter: authGuard
             },
             {
                path: '/edit-task',
-               component: EditTask,
+               component: AddOrEditTask,
                name: 'edit-task-page',
-               beforeEnter: authGuard
+               beforeEnter: (to, from, next) => {
+                  if (store.getters.user) {
+                     if (store.getters.currentTaskId) {
+                        next();
+                     } else {
+                        next({ name: 'tasks-page' });
+                     }
+                  } else {
+                     next('/auth');
+                  }
+               }
             }
          ]
       },

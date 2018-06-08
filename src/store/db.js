@@ -1,7 +1,8 @@
 export default {
    state: {
       db: null,
-      tasks: []
+      tasks: null,
+      currentTaskId: null
    },
    mutations: {
       setDatabase(state, payload) {
@@ -9,6 +10,9 @@ export default {
       },
       setTasks(state, payload) {
          state.tasks = payload;
+      },
+      setCurrentTaskId(state, payload) {
+         state.currentTaskId = payload;
       }
    },
    actions: {
@@ -18,7 +22,21 @@ export default {
          let userId = getters.user.id;
 
          try {
-            let newTask = await getters.db.ref(`users/${userId}/tasks/`).push(task);
+            await getters.db.ref(`users/${userId}/tasks/`).push(task);
+            commit('setLoading', false);
+         } catch (error) {
+            commit('setLoading', false);
+            commit('setError', error.message);
+            throw error;
+         }
+      },
+      async editTask({commit, getters}, task) {
+         commit('clearError');
+         commit('setLoading', true);
+         let userId = getters.user.id;
+
+         try {
+            await getters.db.ref(`users/${userId}/tasks/${getters.currentTaskId}`).update(task);
             commit('setLoading', false);
          } catch (error) {
             commit('setLoading', false);
@@ -33,8 +51,8 @@ export default {
          let allTasks = await getters.db.ref(`users/${userId}/tasks`).once('value');
          
          commit('setLoading', false);
-         
-         allTasks = allTasks ? allTasks.val() : null;         
+
+         allTasks = allTasks ? allTasks.val() : null;
          commit('setTasks', allTasks);
       },
       removeTask({state, getters}, payload) {
@@ -52,6 +70,9 @@ export default {
       },
       tasks(state) {
          return state.tasks;
+      },
+      currentTaskId(state) {
+         return state.currentTaskId;
       }
    }
 }

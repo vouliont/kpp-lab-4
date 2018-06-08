@@ -310,12 +310,12 @@
       top: 50%;
       width: 60%;
       transform-origin: top left;
-      transform: translateY(-50%) rotate(-35deg);
+      transform: translateY(-50%) rotateZ(-35deg);
    }
    .btn-back__line--third {
       top: 50%;
       width: 60%;
       transform-origin: bottom left;
-      transform: translateY(-50%) rotate(35deg);
+      transform: translateY(-50%) rotateZ(35deg);
    }
 </style>

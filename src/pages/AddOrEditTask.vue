@@ -1,6 +1,6 @@
 <template>
    <div class="add-task">
-      <form class="form-adding-task">
+      <form class="form-adding-editing-task">
          <textarea
             type="text"
             class="field-task-name"
@@ -23,12 +23,21 @@
             <input class="date-block__month" placeholder="Месяц" v-model.number="date.month">
          </div>
 
-         <input
-            type="submit"
-            class="btn-add-task"
-            value="Добавить"
-            @click.prevent="addTask()"
-         >
+         <div class="btn-wrapper">
+            <input
+               type="button"
+               value="Отмена"
+               class="btn-cancel"
+               @click="cancelEditProps()"
+            >
+            <input
+               type="submit"
+               class="submit-task"
+               :value="submitName"
+               @click.prevent="onSubmit()"
+            >
+
+         </div>
       </form>
    </div>
 </template>
@@ -42,14 +51,15 @@
             date: {
                day: '',
                month: ''
-            }
+            },
+            submitName: ''
          }
       },
       methods: {
          addTask() {
             let task = {};
             task.name = this.taskName;
-            if (this.date.day && this.date.month) {
+            if (this.isShowDate) {
                task.day = this.date.day;
                task.month = this.date.month;
             }
@@ -58,10 +68,48 @@
                .then(() => {
                   this.$router.push('/tasks');
                })
+         },
+         editTask() {
+            let task = {};
+            task.name = this.taskName;
+            if (this.isShowDate) {
+               task.day = this.date.day;
+               task.month = this.date.month;
+            }
+
+            this.$store.dispatch('editTask', task)
+               .then(() => {
+                  this.$router.push('/tasks');
+               })
+         },
+         cancelEditProps() {
+            this.$router.push('/tasks');
+         }
+      },
+      computed: {
+         onSubmit() {
+            return (this.$route.name == 'edit-task-page') ? this.editTask : this.addTask;
          }
       },
       created() {
          this.$emit('changedTitle', 'Новая задача');
+         
+         if (this.$route.name == 'edit-task-page') {
+            this.submitName = 'Применить';
+
+            let currTaskId = this.$store.getters.currentTaskId;
+            let currTask = this.$store.getters.tasks[currTaskId];
+
+            this.taskName = currTask.name;
+
+            if (currTask.day && currTask.month) {
+               this.isShowDate = true;
+               this.date.day = currTask.day;
+               this.date.month = currTask.month;
+            }
+         } else {
+            this.submitName = 'Добавить';
+         }
       }
    }
 </script>
