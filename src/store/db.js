@@ -21,6 +21,18 @@ export default {
          commit('setLoading', true);
          let userId = getters.user.id;
 
+         if (task.date) {
+            let someDate = new Date(task.date.year, task.date.month, task.date.day);
+            let dateString = someDate.toLocaleString('ru', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric' 
+            });
+
+            task.date.string = dateString;
+         }
+
          try {
             await getters.db.ref(`users/${userId}/tasks/`).push(task);
             commit('setLoading', false);
@@ -35,8 +47,20 @@ export default {
          commit('setLoading', true);
          let userId = getters.user.id;
 
+         if (task.date) {
+            let someDate = new Date(task.date.year, task.date.month, task.date.day);
+            let dateString = someDate.toLocaleString('ru', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric' 
+            });
+
+            task.date.string = dateString;
+         }
+
          try {
-            await getters.db.ref(`users/${userId}/tasks/${getters.currentTaskId}`).update(task);
+            await getters.db.ref(`users/${userId}/tasks/${getters.currentTaskId}`).set(task);
             commit('setLoading', false);
          } catch (error) {
             commit('setLoading', false);

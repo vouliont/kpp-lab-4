@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Vuelidate from 'vuelidate'
 import * as fb from 'firebase'
 import App from './App'
 import router from './router'
@@ -7,6 +8,7 @@ import store from './store'
 import './styles/mainStyle.css'
 
 Vue.use(Vuex);
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false
 

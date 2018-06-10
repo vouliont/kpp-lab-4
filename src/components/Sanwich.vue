@@ -1,10 +1,8 @@
 <template>
    <button class="sandwich" @click="toggleMenu()">
-      <div class="sandwich__inner">
-         <div class="sandwich__line sandwich__line--first"></div>
-         <div class="sandwich__line sandwich__line--second"></div>
-         <div class="sandwich__line sandwich__line--third"></div>
-      </div>
+      <svg style="width:32px;height:32px" viewBox="0 0 24 24">
+         <path fill="#fff" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+      </svg>
    </button>
 </template>
 
@@ -26,28 +24,5 @@
    }
    .sandwich:active {
       background-color: hsla(0, 0%, 23%, 0.388);
-   }
-   .sandwich__inner {
-      position: relative;
-      width: 28px;
-      height: 22px;
-   }
-   .sandwich__line {
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      background-color: #fff;
-      border-radius: 2px;
-   }
-   .sandwich__line--first {
-      top: 0;
-   }
-   .sandwich__line--second {
-      top: 50%;
-      transform: translateY(-50%);
-   }
-   .sandwich__line--third {
-      top: 100%;
-      transform: translateY(-100%);
    }
 </style>

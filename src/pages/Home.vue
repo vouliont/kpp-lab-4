@@ -58,5 +58,19 @@
       align-items: center;
       background-color: #2196F3;
       color: #fff;
+      z-index: 9990;
+   }
+
+   .menu-enter,
+   .menu-leave-to {
+      transform: translateX(100%);
+   }
+   .menu-enter-active,
+   .menu-leave-active {
+      transition: transform 0.5s;
+   }
+   .menu-enter-to,
+   .menu-leave {
+      transform: translateX(0);
    }
 </style>

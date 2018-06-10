@@ -4,24 +4,30 @@
          class="btn-close-menu"
          @click="toggleMenu()"
       >
-         <div class="btn-close-menu__inner">
-            <div class="btn-close-menu__line btn-close-menu__line--first"></div>
-            <div class="btn-close-menu__line btn-close-menu__line--second"></div>
-         </div>
+         <svg style="width:32px;height:32px" viewBox="0 0 24 24">
+            <path fill="#fff" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+         </svg>
       </button>
 
-      <ul class="menu-list">
-         <router-link
-            tag="li"
-            class="menu-list-item"
-            :to="{ name: 'tasks-page' }"
-         >Мои задачи</router-link>
-         <router-link
-            tag="li"
-            class="menu-list-item"
-            :to="{ name: 'add-task-page' }"
-         >Добавить задачу</router-link>
-      </ul>
+      <div class="menu-list-wrapper">
+         <ul class="menu-list">
+            <router-link
+               tag="li"
+               class="menu-list__item"
+               :to="{ name: 'tasks-page' }"
+               @click.native="toggleMenu()"
+               active-class="menu-list__item--active"
+            >Мои задачи</router-link>
+            
+            <router-link
+               tag="li"
+               class="menu-list__item"
+               :to="{ name: 'add-task-page' }"
+               @click.native="toggleMenu()"
+               active-class="menu-list__item--active"
+            >Добавить задачу</router-link>
+         </ul>
+      </div>
 
       <button
          class="log-out"
@@ -47,7 +53,6 @@
    #menu {
       width: 100%;
       height: 100vh;
-      padding: 40px 0 100px;
       position: fixed;
       top: 0;
       left: 0;
@@ -57,7 +62,6 @@
    }
 
    .btn-close-menu {
-      font-size: 0;
       position: absolute;
       top: 15px;
       right: 15px;
@@ -72,29 +76,30 @@
    .btn-close-menu:active {
       background-color: hsla(0, 0%, 23%, 0.388);
    }
-   .btn-close-menu__inner {
-      position: relative;
-      width: 24px;
-      height: 24px;
-   }
-   .btn-close-menu__line {
-      position: absolute;
-      width: 30px;
-      height: 2px;
-      background-color: #fff;
-      border-radius: 2px;
-      transform-origin: left center;
-   }
-   .btn-close-menu__line--first {
-      top: 1px;
-      transform: rotateZ(45deg);
-   }
-   .btn-close-menu__line--second {
-      bottom: 0;
-      transform: rotateZ(-45deg);
-   }
 
-
+   .menu-list-wrapper {
+      height: 100%;
+      padding: 60px 0 100px;
+      overflow: auto;
+   }
+   .menu-list {
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
+   }
+   .menu-list__item {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      height: 34px;
+      line-height: 34px;
+      text-align: center;
+      font-size: 22px;
+      margin: 0 auto 10px;
+   }
+   .menu-list__item--active {
+      color: #1976D2;
+   }
 
    .log-out {
       width: 100%;

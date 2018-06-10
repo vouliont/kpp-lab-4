@@ -20,8 +20,11 @@ export default {
          commit('clearError');
          commit('setLoading', true);
          try {
-            let user = await fb.auth().createUserWithEmailAndPassword(email, password);
+            let objectReturned = await fb.auth().createUserWithEmailAndPassword(email, password);
+            let user = objectReturned.user;
+
             commit('setUser', new User(user.uid));
+            commit('setDatabase', fb.database());
             commit('setLoading', false);
          } catch (error) {
             commit('setLoading', false);
@@ -50,6 +53,7 @@ export default {
       },
       logoutUser({commit}) {
          fb.auth().signOut();
+         commit('setTasks', null);
          commit('setUser', null);
       }
    },

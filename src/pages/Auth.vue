@@ -16,11 +16,59 @@
                class="form-log-container"
                v-if="openBlockName === 'log'"
             >
-               <form class="form-log">
-                  <input type="email" name="email" class="form-log__input input-email" v-model="logEmail" placeholder="Емейл">
-                  <input type="password" name="pass" class="form-log__input input-pass" v-model="logPassword" placeholder="Пароль">
+               <form class="form-group">
+                  <div
+                     class="input-group"
+                     :class="{
+                        'input-group--error': $v.log.email.$error,
+                        'input-group--dirty': $v.log.email.$dirty && $v.log.email.$model,
+                        'input-group--active': activeInput == 'log-email'
+                     }"
+                  >
+                     <label for="log-email" class="input-group-label">Емейл</label>
 
-                  <input type="submit" name="log-in" class="form-log__submit" value="Войти" @click.prevent="logIn()">
+                     <input
+                        type="email"
+                        id="log-email"
+                        class="input-group-item"
+                        v-model="$v.log.email.$model"
+                        @focus="onFocusInput($event)"
+                        @blur="onBlurInput($event)"
+                     >
+
+                     <div class="input-group-error" v-if="!$v.log.email.required && $v.log.email.$error">Это поле является обязательным!</div>
+                     <div class="input-group-error" v-if="!$v.log.email.email && $v.log.email.$error">Некорректный емейл!</div>
+                  </div>
+
+                  <div
+                     class="input-group"
+                     :class="{
+                        'input-group--error': $v.log.password.$error,
+                        'input-group--dirty': $v.log.password.$dirty && $v.log.password.$model,
+                        'input-group--active': activeInput == 'log-password'
+                     }"
+                  >
+                     <label for="log-password" class="input-group-label">Пароль</label>
+
+                     <input
+                        type="password"
+                        id="log-password"
+                        class="input-group-item"
+                        v-model="$v.log.password.$model"
+                        @focus="onFocusInput($event)"
+                        @blur="onBlurInput($event)"
+                     >
+
+                     <div class="input-group-error" v-if="!$v.log.password.required && $v.log.password.$error">Это поле является обязательным!</div>
+                  </div>
+
+                  <input
+                     type="submit"
+                     class="form-group-submit"
+                     :class="{'dont-active': $v.logGroup.$invalid}"
+                     value="Войти"
+                     @click.prevent="logIn()"
+                  >
                </form>
             </div>
          </transition>
@@ -39,12 +87,82 @@
                class="form-reg-container"
                v-if="openBlockName === 'reg'"
             >
-               <form class="form-reg">
-                  <input type="email" name="email" class="form-reg__input input-email" v-model="regEmail" placeholder="Емейл">
-                  <input type="password" name="pass" class="form-reg__input input-pass" v-model="regPassword" placeholder="Пароль">
-                  <input type="password" name="pass-repeat" class="form-reg__input input-pass input-pass-repeat" v-model="regPasswordRepeat" placeholder="Повторите пароль">
+               <form class="form-group">
+                  <div
+                     class="input-group"
+                     :class="{
+                        'input-group--error': $v.reg.email.$error,
+                        'input-group--dirty': $v.reg.email.$dirty && $v.reg.email.$model,
+                        'input-group--active': activeInput == 'reg-email'
+                     }"
+                  >
+                     <label for="reg-email" class="input-group-label">Емейл</label>
 
-                  <input type="submit" name="sign-in" class="form-reg__submit" value="Зарегистрироваться" @click.prevent="signIn()">
+                     <input
+                        type="email"
+                        id="reg-email"
+                        class="input-group-item"
+                        v-model="$v.reg.email.$model"
+                        @focus="onFocusInput($event)"
+                        @blur="onBlurInput($event)"
+                     >
+
+                     <div class="input-group-error" v-if="!$v.reg.email.required && $v.reg.email.$error">Это поле является обязательным!</div>
+                     <div class="input-group-error" v-if="!$v.reg.email.email && $v.reg.email.$error">Некорректный емейл!</div>
+                  </div>
+
+                  <div
+                     class="input-group"
+                     :class="{
+                        'input-group--error': $v.reg.password.$error,
+                        'input-group--dirty': $v.reg.password.$dirty && $v.reg.password.$model,
+                        'input-group--active': activeInput == 'reg-password'
+                     }"
+                  >
+                     <label for="reg-password" class="input-group-label">Пароль</label>
+
+                     <input
+                        type="password"
+                        id="reg-password"
+                        class="input-group-item"
+                        v-model="$v.reg.password.$model"
+                        @focus="onFocusInput($event)"
+                        @blur="onBlurInput($event)"
+                     >
+
+                     <div class="input-group-error" v-if="!$v.reg.password.required && $v.reg.password.$error">Это поле является обязательным!</div>
+                     <div class="input-group-error" v-if="!$v.reg.password.minLength && $v.reg.password.$error">Мин. длина пароля - 6 символов!</div>
+                  </div>
+
+                  <div
+                     class="input-group"
+                     :class="{
+                        'input-group--error': $v.reg.repeatPassword.$error,
+                        'input-group--dirty': $v.reg.repeatPassword.$dirty && $v.reg.repeatPassword.$model,
+                        'input-group--active': activeInput == 'reg-repeat-password'
+                     }"
+                  >
+                     <label for="reg-repeat-password" class="input-group-label">Повторите пароль</label>
+
+                     <input
+                        type="password"
+                        id="reg-repeat-password"
+                        class="input-group-item"
+                        v-model="$v.reg.repeatPassword.$model"
+                        @focus="onFocusInput($event)"
+                        @blur="onBlurInput($event)"
+                     >
+
+                     <div class="input-group-error" v-if="!$v.reg.repeatPassword.sameAsPassword && $v.reg.repeatPassword.$error">Пароли не совпадают!</div>
+                  </div>
+
+                  <input
+                     type="submit"
+                     class="form-group-submit"
+                     :class="{'dont-active': $v.regGroup.$invalid}"
+                     value="Зарегистрироваться"
+                     @click.prevent="signUp()"
+                  >
                </form>
             </div>
          </transition>
@@ -55,11 +173,9 @@
                @click="openBlockName = ''"
                v-if="openBlockName !== ''"
             >
-               <div class="btn-back__inner">
-                  <div class="btn-back__line btn-back__line--first"></div>
-                  <div class="btn-back__line btn-back__line--second"></div>
-                  <div class="btn-back__line btn-back__line--third"></div>
-               </div>
+               <svg style="width:32px;height:32px" viewBox="0 0 24 24">
+                  <path fill="#fff" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+               </svg>
             </button>
          </transition>
       </div>
@@ -68,42 +184,82 @@
 </template>
 
 <script>
+   import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+
    export default {
       data() {
          return {
+            activeInput: '',
             openBlockName: '',
-            regEmail: '',
-            regPassword: '',
-            regPasswordRepeat: '',
-            logEmail: '',
-            logPassword: ''
+            log: {
+               email: '',
+               password: ''
+            },
+            reg: {
+               email: '',
+               password: '',
+               repeatPassword: ''
+            }
          }
       },
       methods: {
          logIn() {
-            let user = {
-               email: this.logEmail,
-               password: this.logPassword
-            };
+            this.$v.logGroup.$touch();
+            if (this.$v.logGroup.$invalid) return;
 
-            this.$store.dispatch('loginUser', user)
+            this.$store.dispatch('loginUser', this.log)
                .then(() => {
                   this.$router.push('/tasks');
                })
                .catch(error => console.log(error));
          },
-         signIn() {
-            let user = {
-               email: this.regEmail,
-               password: this.regPassword
+         signUp() {
+            this.$v.regGroup.$touch();
+            if (this.$v.regGroup.$invalid) return;
+            
+            let newUser = {
+               email: this.reg.email,
+               password: this.reg.password
             };
 
-            this.$store.dispatch('registerUser', user)
+            this.$store.dispatch('registerUser', newUser)
                .then(() => {
                   this.$router.push('/tasks');
                })
                .catch(error => console.log(error));
+         },
+         onFocusInput(e) {
+            this.activeInput = e.target.id;
+         },
+         onBlurInput(e) {
+            this.activeInput = '';
          }
+      },
+      validations: {
+         log: {
+            email: {
+               required,
+               email
+            },
+            password: {
+               required
+            }
+         },
+         reg: {
+            email: {
+               required,
+               email
+            },
+            password: {
+               required,
+               minLength: minLength(6)
+            },
+            repeatPassword: {
+               sameAsPassword: sameAs('password')
+            }
+         },
+         logGroup: ['log.email', 'log.password'],
+         regGroup: ['reg.email', 'reg.password', 'reg.repeatPassword']
       }
    }
 </script>
@@ -212,7 +368,7 @@
    }
    .form-log-container-enter-to,
    .form-log-container-leave {
-      height: 160px;
+      height: 228px;
    }
 
    .form-reg-container {
@@ -232,29 +388,66 @@
    }
    .form-reg-container-enter-to,
    .form-reg-container-leave {
-      height: 215px;
+      height: 312px;
    }
 
-   .form-log,
-   .form-reg {
+   .form-group {
       padding: 0 20px;
       width: 100%;
       max-width: 400px;
    }
-   .form-log__input,
-   .form-reg__input {
+   .input-group-item {
       width: 100%;
       height: 40px;
-      margin-bottom: 15px;
+      border: 1px solid #fff;
    }
-   .form-log__submit,
-   .form-reg__submit {
+   .form-group-submit {
       display: block;
       width: 100%;
       max-width: 200px;
       height: 40px;
       background-color: #1565C0;
-      margin: 10px auto 0;
+      margin: 20px auto 0;
+   }
+
+   .input-group {
+      padding: 16px 0 28px;
+      position: relative;
+   }
+
+   .input-group-label {
+      position: absolute;
+      color: #757575;
+      top: 25px;
+      left: 14px;
+      display: inline-block;
+      transition: transform 0.35s, font-size 0.35s;
+   }
+
+   .input-group--active .input-group-label,
+   .input-group--dirty .input-group-label {
+      transform: translate3d(-9px, -30px, 0);
+      font-size: 16px;
+   }
+
+   .input-group--active .input-group-label {
+      color: #1565C0;
+   }
+
+   .input-group--error .input-group-item {
+      border: 1px solid #F44336;
+   }
+   .input-group--error .input-group-label {
+      color: #F44336;
+   }
+
+   .input-group-error {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      color: #F44336;
+      font-size: 16px;
+      padding-left: 10px;
    }
 
    .btn-back {
@@ -290,32 +483,6 @@
          opacity: 1;
       }
    }
-   .btn-back__inner {
-      position: relative;
-      width: 24px;
-      height: 24px;
-   }
-   .btn-back__line {
-      position: absolute;
-      height: 2px;
-      background-color: #fff;
-      border-radius: 2px;
-   }
-   .btn-back__line--first {
-      top: 50%;
-      width: 100%;
-      transform: translateY(-50%);
-   }
-   .btn-back__line--second {
-      top: 50%;
-      width: 60%;
-      transform-origin: top left;
-      transform: translateY(-50%) rotateZ(-35deg);
-   }
-   .btn-back__line--third {
-      top: 50%;
-      width: 60%;
-      transform-origin: bottom left;
-      transform: translateY(-50%) rotateZ(35deg);
-   }
+
+   .form-group-submit.dont-active { background-color: #9e9e9e; }
 </style>
