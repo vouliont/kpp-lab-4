@@ -137,6 +137,9 @@
                })
          },
          editTask() {
+            this.$v.$touch();
+            if (this.$v.taskName.$invalid || (this.isShowDate && this.$v.dateGroup.$invalid)) return;
+
             let task = {};
             task.name = this.taskName;
             if (this.isShowDate) {
@@ -173,9 +176,9 @@
          }
       },
       created() {
-         this.$emit('changedTitle', 'Новая задача');
-         
          if (this.$route.name == 'edit-task-page') {
+            this.$emit('changeSandwichVisibility', false);
+            this.$emit('changedTitle', 'Редактирование');
             this.submitName = 'Применить';
 
             let currTaskId = this.$store.getters.currentTaskId;
@@ -190,8 +193,14 @@
                this.date.year = currTask.date.year;
             }
          } else {
+            this.$emit('changedTitle', 'Новая задача');
             this.submitName = 'Добавить';
          }
+      },
+      beforeRouteLeave(to, from, next) {
+         this.$store.commit('setCurrentTaskId', null);
+         this.$emit('changeSandwichVisibility', true);
+         next();
       }
    }
 </script>

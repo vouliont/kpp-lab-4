@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
-import * as fb from 'firebase'
+import fb from 'firebase/app'
 import App from './App'
 import router from './router'
 import store from './store'

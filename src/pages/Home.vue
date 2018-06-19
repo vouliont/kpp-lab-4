@@ -9,10 +9,13 @@
 
       <div class="header">
          <h2>{{ title }}</h2>
-         <app-sandwich :toggleMenu="toggleMenu"></app-sandwich>
+         <app-sandwich
+            v-if="isShowSandwich"
+            :toggleMenu="toggleMenu"
+         ></app-sandwich>
       </div>
 
-      <router-view @changedTitle="changeTitle"></router-view>
+      <router-view @changedTitle="changeTitle" @changeSandwichVisibility="changeSandwichVisibility"></router-view>
    </div>
 </template>
 
@@ -24,6 +27,7 @@
       data() {
          return {
             isOpenedMenu: false,
+            isShowSandwich: true,
             title: ''
          }
       },
@@ -33,6 +37,9 @@
          },
          changeTitle(str) {
             this.title = str;
+         },
+         changeSandwichVisibility(flag) {
+            this.isShowSandwich = flag;
          }
       },
       components: {
